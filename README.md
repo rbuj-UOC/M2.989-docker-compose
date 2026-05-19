@@ -33,6 +33,9 @@ Execució dels exercicis:
 cqlsh cassandra -f /home/student/cassandra/0.1.cql
 ```
 
+> [!WARNING]
+> Les dades s'han obtingut de https://github.com/jconesac/cassandra_dataset
+
 ## Exercici 2: Neo4j (35%)
 
 Per tal d'iniciar el contenidor i els exercicis cal que el directori de treball
@@ -74,6 +77,9 @@ neo4j
 password123
 ```
 
+> [!WARNING]
+> Les dades s'han obtingut de https://github.com/planetacomputer/starwars-full
+
 ## Exercici 3: MongoDB (35%)
 
 Per tal d'iniciar el contenidor i els exercicis cal que el directori de treball
@@ -106,3 +112,6 @@ Executar mongosh:
 ```sh
 mongosh
 ```
+
+> [!WARNING]
+> Les dades s'han obtingut de https://github.com/uoc-bbdd-no-tradicionales/mongodb-sample-dataset
