@@ -1,0 +1,34 @@
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=TestCluster
+      - CASSANDRA_DC=DC1
+      - CASSANDRA_RACK=Rack1
+      - CASSANDRA_START_RPC=true
+    volumes:
+      - ./csv:/home/student/Escritorio/Cassandra
+      - ./scripts:/home/student/cassandra
+      - cassandra_data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  cassandra-init:
+    image: cassandra:latest
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    volumes:
+      - ./init:/init
+      - ./csv:/home/student/Escritorio/Cassandra
+    entrypoint: ["/bin/bash", "/init/init.sh"]
+
+
+volumes:
+  cassandra_data:

@@ -1,0 +1,55 @@
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: neo4j
+    restart: unless-stopped
+    entrypoint: ["/entrypoint.sh"]
+
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+
+    environment:
+      NEO4J_AUTH: "neo4j/password123"
+
+      # Plugins
+      NEO4J_PLUGINS: '["apoc"]'
+
+      # APOC: permetre configuració no estricta
+      NEO4J_server_config_strict__validation_enabled: "false"
+
+      # Import/export
+      NEO4J_apoc_import_file_enabled: "true"
+      NEO4J_apoc_export_file_enabled: "true"
+      NEO4J_apoc_import_file_use__neo4j__config: "true"
+
+      # Permetre LOAD CSV des de file:///
+      NEO4J_dbms_security_allow__csv__import__from__file__urls: "true"
+
+      # Triggers i UUID
+      NEO4J_apoc_trigger_enabled: "true"
+      NEO4J_apoc_uuid_enabled: "true"
+
+      # HTTP
+      NEO4J_apoc_http_enabled: "true"
+      NEO4J_apoc_http_timeout: "60000"
+
+    volumes:
+      # Dades persistents
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_plugins:/plugins
+
+      # Carpeta import → accessible com file:/// dins Neo4j
+      - ./import:/var/lib/neo4j/import
+
+      # Script d’inicialització
+      - ./entrypoint.sh:/entrypoint.sh
+
+      # Scripts addicionals
+      - ./scripts:/home/student/neo4j
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  neo4j_plugins:
